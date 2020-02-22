@@ -1,0 +1,25 @@
+{
+  "name": "frontend-project-lvl3",
+  "version": "1.0.0",
+  "description": "RSS Reader — project from Hexlet Frontend JavaScript Profession.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MityaDementiy/frontend-project-lvl3.git"
+  },
+  "keywords": [
+    "RSS",
+    "Reader",
+    "frontend",
+    "Hexlet"
+  ],
+  "author": "Mitya Dementiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MityaDementiy/frontend-project-lvl3/issues"
+  },
+  "homepage": "https://github.com/MityaDementiy/frontend-project-lvl3#readme"
+}
