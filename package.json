@@ -1,12 +1,10 @@
 {
   "name": "frontend-project-lvl3",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "RSS Reader — project from Hexlet Frontend JavaScript Profession.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "build": "webpack -p",
-    "watch": "webpack --watch"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -24,16 +22,26 @@
     "url": "https://github.com/MityaDementiy/frontend-project-lvl3/issues"
   },
   "homepage": "https://github.com/MityaDementiy/frontend-project-lvl3#readme",
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/"
+  },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
     "babel-eslint": "^8.2.6",
+    "babel-loader": "^8.0.6",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",
     "html-webpack-plugin": "^3.2.0",
-    "webpack": "^4.41.6"
+    "jest": "^25.1.0",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.8.3"
   }
 }
