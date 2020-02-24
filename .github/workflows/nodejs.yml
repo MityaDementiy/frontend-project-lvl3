@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [8.x, 10.x, 12.x, 13.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -18,12 +18,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, build
-        run: |
-          make install
-          make build
+    - name: install
+      run: make install
+    - name: build
+      run: make build
+    - name: lint
+      run: make lint
         env:
           CI: true
-      - name: Run linter
-        run: |
-          make lint
+      
+      
