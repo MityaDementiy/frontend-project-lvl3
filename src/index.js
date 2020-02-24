@@ -10,10 +10,11 @@ const app = () => {
 
   const row = document.createElement('div');
   row.classList.add('row');
+  row.classList.add('justify-content-center');
   container.append(row);
 
   const col = document.createElement('div');
-  col.classList.add('col-sm-6');
+  col.classList.add('col-sm-8');
   col.classList.add('col-12');
   row.append(col);
 
