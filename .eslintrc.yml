@@ -1,8 +1,8 @@
 ---
 
 plugins:
-  -jest
-  -babel
+  - jest
+  - babel
 
 env:
   jest/globals: true
