@@ -14,7 +14,7 @@ const app = () => {
   container.append(row);
 
   const col = document.createElement('div');
-  col.classList.add('col-sm-8');
+  col.classList.add('col-sm-6');
   col.classList.add('col-12');
   row.append(col);
 
