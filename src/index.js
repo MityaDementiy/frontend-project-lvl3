@@ -2,7 +2,7 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const app = () => {
-    const point = document.getElementById('point');
+  const point = document.getElementById('point');
 
   const container = document.createElement('div');
   container.classList.add('container-fluid');
