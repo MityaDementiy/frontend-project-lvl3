@@ -40,6 +40,7 @@ const app = () => {
   submitButton.classList.add('btn-primary');
   submitButton.classList.add('btn');
   submitButton.setAttribute('type', 'submit');
+  submitButton.setAttribute('disabled', '');
   submitButton.textContent = 'Add';
   form.append(submitButton);
 };
