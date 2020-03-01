@@ -54,7 +54,14 @@ const app = () => {
   submitButton.textContent = 'Add';
   form.append(submitButton);
 
-  const isValidUrl = (string) => yup.string().url().required().isValidSync(string);
+  const isValidUrl = (string) => {
+    const isUrl = () => yup.string().url().required().isValidSync(string);
+    const isUniq = () => !state.feedsList.includes(string);
+    if (isUrl(string) && isUniq(string)) {
+      return true;
+    }
+    return false;
+  };
 
   form.addEventListener('input', (e) => {
     e.preventDefault();
@@ -69,7 +76,7 @@ const app = () => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    state.feedsList.push(e.target.value);
+    state.feedsList.push(state.form.inputFieldValue);
     state.form.sbmtButton = 'blocked';
     state.form.inputFieldValue = '';
   });
