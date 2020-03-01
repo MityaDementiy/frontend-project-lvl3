@@ -1,6 +1,5 @@
 import { watch } from 'melanke-watchjs';
 
-
 const point = document.getElementById('point');
 
 const container = document.createElement('div');
