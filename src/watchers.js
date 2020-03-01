@@ -1,5 +1,4 @@
 import { watch } from 'melanke-watchjs';
-import * as yup from 'yup';
 
 
 const point = document.getElementById('point');
@@ -46,29 +45,17 @@ submitButton.textContent = 'Add';
 form.append(submitButton);
 
 export default (state) => {
-  const isValidUrl = (string) => {
-    const isUrl = () => yup.string().url().required().isValidSync(string);
-    const isUniq = () => !state.feedsList.includes(string);
-    if (isUrl(string) && isUniq(string)) {
-      return true;
-    }
-    return false;
-  };
-
-  watch(state.form, 'inputFieldValue', () => {
-    if (!isValidUrl(state.form.inputFieldValue)) {
-      input.classList.add('is-invalid');
-    }
-    if (isValidUrl(state.form.inputFieldValue) || state.form.inputFieldValue === '') {
-      input.classList.remove('is-invalid');
-    }
-  });
-
   watch(state.form, 'sbmtButton', () => {
     if (state.form.sbmtButton === 'active') {
       submitButton.removeAttribute('disabled');
+      input.classList.remove('is-invalid');
     }
     if (state.form.sbmtButton === 'blocked') {
+      submitButton.setAttribute('disabled', '');
+      input.classList.add('is-invalid');
+    }
+    if (state.form.sbmtButton === 'waiting-blocked') {
+      input.classList.remove('is-invalid');
       submitButton.setAttribute('disabled', '');
     }
   });
