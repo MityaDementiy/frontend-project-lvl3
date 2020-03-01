@@ -3,15 +3,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as yup from 'yup';
 import watch from './watchers';
 
-const app = () => {
-  const state = {
-    form: {
-      inputFieldValue: '',
-      sbmtButton: 'blocked',
-    },
-    feedsList: [],
-  };
+const state = {
+  form: {
+    inputFieldValue: '',
+    sbmtButton: 'blocked',
+  },
+  feedsList: [],
+};
 
+const app = () => {
   const isValidUrl = (string) => {
     const isUrl = () => yup.string().url().required().isValidSync(string);
     const isUniq = () => !state.feedsList.includes(string);
