@@ -1,7 +1,18 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import * as yup from 'yup';
+import { watch } from 'melanke-watchjs';
 
 const app = () => {
+  const state = {
+    form: {
+      inputFieldValue: '',
+      sbmtButton: 'blocked',
+    },
+    feedsList: [],
+    postsList: [],
+  };
+
   const point = document.getElementById('point');
 
   const container = document.createElement('div');
@@ -43,6 +54,37 @@ const app = () => {
   submitButton.setAttribute('disabled', '');
   submitButton.textContent = 'Add';
   form.append(submitButton);
+
+  const isValidUrl = (string) => yup.string().url().required().isValidSync(string);
+
+  form.addEventListener('input', (e) => {
+    e.preventDefault();
+    state.form.inputFieldValue = e.target.value;
+    if (state.form.inputFieldValue === '') {
+      state.form.sbmtButton = 'blocked';
+    }
+    if (isValidUrl(state.form.inputFieldValue)) {
+      state.form.sbmtButton = 'active';
+    }
+  });
+
+  watch(state.form, 'inputFieldValue', () => {
+    if (!isValidUrl(state.form.inputFieldValue)) {
+      input.classList.add('is-invalid');
+    }
+    if (isValidUrl(state.form.inputFieldValue) || state.form.inputFieldValue === '') {
+      input.classList.remove('is-invalid');
+    }
+  });
+
+  watch(state.form, 'sbmtButton', () => {
+    if (state.form.sbmtButton === 'active') {
+      submitButton.removeAttribute('disabled');
+    }
+    if (state.form.sbmtButton === 'blocked') {
+      submitButton.setAttribute('disabled', '');
+    }
+  });
 };
 
 app();
