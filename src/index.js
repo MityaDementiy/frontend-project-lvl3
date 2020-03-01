@@ -11,16 +11,16 @@ const state = {
   feedsList: [],
 };
 
-const app = () => {
-  const isValidUrl = (string) => {
-    const isUrl = () => yup.string().url().required().isValidSync(string);
-    const isUniq = () => !state.feedsList.includes(string);
-    if (isUrl(string) && isUniq(string)) {
-      return true;
-    }
-    return false;
-  };
+const isValidUrl = (string) => {
+  const isUrl = () => yup.string().url().required().isValidSync(string);
+  const isUniq = () => !state.feedsList.includes(string);
+  if (isUrl(string) && isUniq(string)) {
+    return true;
+  }
+  return false;
+};
 
+const app = () => {
   const form = document.querySelector('form');
   form.addEventListener('input', (e) => {
     e.preventDefault();
