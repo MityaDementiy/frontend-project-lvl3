@@ -10,7 +10,6 @@ const app = () => {
       sbmtButton: 'blocked',
     },
     feedsList: [],
-    postsList: [],
   };
 
   const point = document.getElementById('point');
@@ -68,6 +67,13 @@ const app = () => {
     }
   });
 
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    state.feedsList.push(e.target.value);
+    state.form.sbmtButton = 'blocked';
+    state.form.inputFieldValue = '';
+  });
+
   watch(state.form, 'inputFieldValue', () => {
     if (!isValidUrl(state.form.inputFieldValue)) {
       input.classList.add('is-invalid');
@@ -83,6 +89,13 @@ const app = () => {
     }
     if (state.form.sbmtButton === 'blocked') {
       submitButton.setAttribute('disabled', '');
+    }
+  });
+
+  watch(state, 'feedsList', () => {
+    const actual = state.feedsList.length;
+    if (actual !== state.feedsList) {
+      form.reset();
     }
   });
 };
