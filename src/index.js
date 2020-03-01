@@ -60,7 +60,7 @@ const app = () => {
   form.addEventListener('input', (e) => {
     e.preventDefault();
     state.form.inputFieldValue = e.target.value;
-    if (state.form.inputFieldValue === '') {
+    if (state.form.inputFieldValue === '' || (!isValidUrl(state.form.inputFieldValue))) {
       state.form.sbmtButton = 'blocked';
     }
     if (isValidUrl(state.form.inputFieldValue)) {
