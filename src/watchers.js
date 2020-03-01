@@ -61,9 +61,6 @@ export default (state) => {
   });
 
   watch(state, 'feedsList', () => {
-    const actual = state.feedsList.length;
-    if (actual !== state.feedsList) {
-      form.reset();
-    }
+    form.reset();
   });
 };
