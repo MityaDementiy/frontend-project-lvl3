@@ -43,6 +43,16 @@ submitButton.setAttribute('disabled', '');
 submitButton.textContent = 'Add';
 form.append(submitButton);
 
+const createFeedElement = (newFeedUrl) => {
+  const newFeedElement = document.createElement('div');
+  newFeedElement.classList.add('border');
+  newFeedElement.classList.add('rounded');
+  col.append(newFeedElement);
+  const feedName = document.createElement('h3');
+  feedName.textContent = newFeedUrl;
+  newFeedElement.append(feedName);
+};
+
 export default (state) => {
   watch(state.form, 'sbmtButton', () => {
     if (state.form.sbmtButton === 'active') {
@@ -61,5 +71,6 @@ export default (state) => {
 
   watch(state, 'feedsList', () => {
     form.reset();
+    createFeedElement(state.feedsList[state.feedsList.length - 1]);
   });
 };
