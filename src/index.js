@@ -1,7 +1,9 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as yup from 'yup';
+import axios from 'axios';
 import watch from './watchers';
+
 
 const state = {
   form: {
@@ -9,7 +11,13 @@ const state = {
     sbmtButton: 'waiting-blocked',
   },
   feedsList: [],
+  lastFeed: {
+    title: '',
+    description: '',
+  },
 };
+
+const proxy = 'https://cors-anywhere.herokuapp.com/';
 
 const isValidUrl = (string) => {
   const isUrl = () => yup.string().url().required().isValidSync(string);
@@ -41,6 +49,20 @@ const app = () => {
     state.feedsList.push(state.form.inputFieldValue);
     state.form.sbmtButton = 'waiting-blocked';
     state.form.inputFieldValue = '';
+    const newFeedUrl = state.feedsList[state.feedsList.length - 1];
+    const requestURL = `${proxy}${newFeedUrl}`;
+    axios.get(requestURL)
+      .then((response) => response.data)
+      .then((data) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data, 'application/xml');
+        const titlesArray = doc.getElementsByTagName('title');
+        const channelTitle = titlesArray[0].textContent;
+        const descriptionsArray = doc.getElementsByTagName('description');
+        const channelDescription = descriptionsArray[0].textContent;
+        state.lastFeed.title = channelTitle;
+        state.lastFeed.description = channelDescription;
+      });
   });
 
   watch(state);

@@ -43,13 +43,13 @@ submitButton.setAttribute('disabled', '');
 submitButton.textContent = 'Add';
 form.append(submitButton);
 
-const createFeedElement = (newFeedUrl) => {
+const createFeedElement = (title, description) => {
   const newFeedElement = document.createElement('div');
   newFeedElement.classList.add('border');
   newFeedElement.classList.add('rounded');
   col.append(newFeedElement);
   const feedName = document.createElement('h3');
-  feedName.textContent = newFeedUrl;
+  feedName.textContent = `${title} — ${description}`;
   newFeedElement.append(feedName);
 };
 
@@ -69,8 +69,8 @@ export default (state) => {
     }
   });
 
-  watch(state, 'feedsList', () => {
+  watch(state.lastFeed, 'title', () => {
     form.reset();
-    createFeedElement(state.feedsList[state.feedsList.length - 1]);
+    createFeedElement(state.lastFeed.title, state.lastFeed.description);
   });
 };
