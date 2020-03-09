@@ -43,7 +43,7 @@ submitButton.setAttribute('disabled', '');
 submitButton.textContent = 'Add';
 form.append(submitButton);
 
-const createFeedElement = (title, description, postItems) => {
+const createFeedElement = (title, description, postItems, postsLinks) => {
   const newFeedElement = document.createElement('div');
   newFeedElement.classList.add('border');
   newFeedElement.classList.add('rounded');
@@ -55,8 +55,13 @@ const createFeedElement = (title, description, postItems) => {
   const postsList = document.createElement('ul');
   newFeedElement.append(postsList);
   postItems.forEach((item) => {
+    const linkIndex = postItems.indexOf(item);
     const postItem = document.createElement('li');
-    postItem.textContent = item;
+    const postLink = document.createElement('a');
+    postLink.setAttribute('href', `${postsLinks[linkIndex]}`);
+    postLink.setAttribute('target', '_blank');
+    postItem.append(postLink);
+    postLink.textContent = item;
     postsList.append(postItem);
   });
 };
@@ -80,7 +85,10 @@ export default (state) => {
 
   watch(state.lastFeed, 'title', () => {
     form.reset();
+    const feedTitle = state.lastFeed.title;
+    const feedDescription = state.lastFeed.description;
     const lastFeedPosts = state.feedsList[state.feedsList.length - 1][1];
-    createFeedElement(state.lastFeed.title, state.lastFeed.description, lastFeedPosts);
+    const lastFeedLinks = state.feedsList[state.feedsList.length - 1][2];
+    createFeedElement(feedTitle, feedDescription, lastFeedPosts, lastFeedLinks);
   });
 };

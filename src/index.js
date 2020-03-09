@@ -66,6 +66,11 @@ const app = () => {
         const postsTitlesArray = titlesArray.splice(1, titlesArray.length);
         const postsTitles = postsTitlesArray.map((title) => title.textContent);
         state.feedsList[state.feedsList.length - 1].push(postsTitles);
+        const linksCollection = doc.getElementsByTagName('link');
+        const linksArray = Array.from(linksCollection);
+        const postLinks = linksArray.splice(1, linksArray.length)
+          .map((link) => link.textContent);
+        state.feedsList[state.feedsList.length - 1].push(postLinks);
       });
   });
 
