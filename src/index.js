@@ -46,7 +46,7 @@ const app = () => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    state.feedsList.push(state.form.inputFieldValue);
+    state.feedsList.push([state.form.inputFieldValue]);
     state.form.sbmtButton = 'waiting-blocked';
     state.form.inputFieldValue = '';
     const newFeedUrl = state.feedsList[state.feedsList.length - 1];
@@ -56,12 +56,16 @@ const app = () => {
       .then((data) => {
         const parser = new DOMParser();
         const doc = parser.parseFromString(data, 'application/xml');
-        const titlesArray = doc.getElementsByTagName('title');
-        const channelTitle = titlesArray[0].textContent;
-        const descriptionsArray = doc.getElementsByTagName('description');
-        const channelDescription = descriptionsArray[0].textContent;
+        const titlesCollection = doc.getElementsByTagName('title');
+        const channelTitle = titlesCollection[0].textContent;
+        const descriptionsCollection = doc.getElementsByTagName('description');
+        const channelDescription = descriptionsCollection[0].textContent;
         state.lastFeed.title = channelTitle;
         state.lastFeed.description = channelDescription;
+        const titlesArray = Array.from(titlesCollection);
+        const postsTitlesArray = titlesArray.splice(1, titlesArray.length);
+        const postsTitles = postsTitlesArray.map((title) => title.textContent);
+        state.feedsList[state.feedsList.length - 1].push(postsTitles);
       });
   });
 

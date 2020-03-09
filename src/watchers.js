@@ -43,7 +43,7 @@ submitButton.setAttribute('disabled', '');
 submitButton.textContent = 'Add';
 form.append(submitButton);
 
-const createFeedElement = (title, description) => {
+const createFeedElement = (title, description, postItems) => {
   const newFeedElement = document.createElement('div');
   newFeedElement.classList.add('border');
   newFeedElement.classList.add('rounded');
@@ -51,7 +51,15 @@ const createFeedElement = (title, description) => {
   const feedName = document.createElement('h3');
   feedName.textContent = `${title} — ${description}`;
   newFeedElement.append(feedName);
+  const postsList = document.createElement('ul');
+  newFeedElement.append(postsList);
+  postItems.forEach((item) => {
+    const postItem = document.createElement('h5');
+    postItem.textContent = item;
+    postsList.append(postItem);
+  });
 };
+
 
 export default (state) => {
   watch(state.form, 'sbmtButton', () => {
@@ -71,6 +79,7 @@ export default (state) => {
 
   watch(state.lastFeed, 'title', () => {
     form.reset();
-    createFeedElement(state.lastFeed.title, state.lastFeed.description);
+    const lastFeedPosts = state.feedsList[state.feedsList.length - 1][1];
+    createFeedElement(state.lastFeed.title, state.lastFeed.description, lastFeedPosts);
   });
 };
