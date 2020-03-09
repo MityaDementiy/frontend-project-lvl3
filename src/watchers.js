@@ -54,7 +54,7 @@ const createFeedElement = (title, description, postItems) => {
   const postsList = document.createElement('ul');
   newFeedElement.append(postsList);
   postItems.forEach((item) => {
-    const postItem = document.createElement('h5');
+    const postItem = document.createElement('li');
     postItem.textContent = item;
     postsList.append(postItem);
   });
