@@ -21,7 +21,14 @@ const proxy = 'https://cors-anywhere.herokuapp.com/';
 
 const isValidUrl = (string) => {
   const isUrl = () => yup.string().url().required().isValidSync(string);
-  const isUniq = () => !state.feedsList.includes(string);
+  const isUniq = () => {
+    const feedsArray = state.feedsList;
+    const feedsTitles = feedsArray.map((feed) => feed[0]);
+    if (!feedsTitles.flat().includes(string)) {
+      return true;
+    }
+    return false;
+  };
   if (isUrl(string) && isUniq(string)) {
     return true;
   }
