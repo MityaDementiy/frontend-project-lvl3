@@ -48,6 +48,7 @@ const createFeedElement = (title, description, postItems, postsLinks) => {
   newFeedElement.classList.add('border');
   newFeedElement.classList.add('rounded');
   newFeedElement.setAttribute('style', 'padding: 10px');
+  newFeedElement.setAttribute('id', `${title}`);
   col.append(newFeedElement);
   const feedName = document.createElement('h3');
   feedName.textContent = `${title} — ${description}`;
@@ -63,6 +64,7 @@ const createFeedElement = (title, description, postItems, postsLinks) => {
     postItem.append(postLink);
     postLink.textContent = item;
     postsList.append(postItem);
+    postItem.setAttribute('id', `${item}`);
   });
 };
 
