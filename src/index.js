@@ -63,8 +63,8 @@ const app = () => {
         state.lastFeed.title = channelTitle;
         state.lastFeed.description = channelDescription;
         const titlesArray = Array.from(titlesCollection);
-        const postsTitlesArray = titlesArray.splice(1, titlesArray.length);
-        const postsTitles = postsTitlesArray.map((title) => title.textContent);
+        const postsTitles = titlesArray.splice(1, titlesArray.length)
+          .map((title) => title.textContent);
         state.feedsList[state.feedsList.length - 1].push(postsTitles);
         const linksCollection = doc.getElementsByTagName('link');
         const linksArray = Array.from(linksCollection);

@@ -68,7 +68,6 @@ const createFeedElement = (title, description, postItems, postsLinks) => {
   });
 };
 
-
 export default (state) => {
   watch(state.form, 'sbmtButton', () => {
     if (state.form.sbmtButton === 'active') {
