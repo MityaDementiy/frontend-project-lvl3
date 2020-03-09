@@ -47,6 +47,7 @@ const createFeedElement = (title, description, postItems) => {
   const newFeedElement = document.createElement('div');
   newFeedElement.classList.add('border');
   newFeedElement.classList.add('rounded');
+  newFeedElement.setAttribute('style', 'padding: 10px');
   col.append(newFeedElement);
   const feedName = document.createElement('h3');
   feedName.textContent = `${title} — ${description}`;
