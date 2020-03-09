@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as yup from 'yup';
 import axios from 'axios';
 import watch from './watchers';
-
+import parseData from './parser';
 
 const state = {
   form: {
@@ -54,23 +54,11 @@ const app = () => {
     axios.get(requestURL)
       .then((response) => response.data)
       .then((data) => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data, 'application/xml');
-        const titlesCollection = doc.getElementsByTagName('title');
-        const channelTitle = titlesCollection[0].textContent;
-        const descriptionsCollection = doc.getElementsByTagName('description');
-        const channelDescription = descriptionsCollection[0].textContent;
+        const [channelTitle, channelDescription, postsTitles, postsLinks] = parseData(data);
         state.lastFeed.title = channelTitle;
         state.lastFeed.description = channelDescription;
-        const titlesArray = Array.from(titlesCollection);
-        const postsTitles = titlesArray.splice(1, titlesArray.length)
-          .map((title) => title.textContent);
         state.feedsList[state.feedsList.length - 1].push(postsTitles);
-        const linksCollection = doc.getElementsByTagName('link');
-        const linksArray = Array.from(linksCollection);
-        const postLinks = linksArray.splice(1, linksArray.length)
-          .map((link) => link.textContent);
-        state.feedsList[state.feedsList.length - 1].push(postLinks);
+        state.feedsList[state.feedsList.length - 1].push(postsLinks);
       });
   });
 
