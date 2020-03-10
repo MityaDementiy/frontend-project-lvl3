@@ -15,6 +15,7 @@ const state = {
     title: '',
     description: '',
   },
+  alertType: '',
 };
 
 const proxy = 'https://cors-anywhere.herokuapp.com/';
@@ -66,6 +67,7 @@ const app = () => {
         state.lastFeed.description = channelDescription;
         state.feedsList[state.feedsList.length - 1].push(postsTitles);
         state.feedsList[state.feedsList.length - 1].push(postsLinks);
+        state.alertType = 'success';
       });
   });
 

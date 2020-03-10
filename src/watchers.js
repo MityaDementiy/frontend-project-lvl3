@@ -43,6 +43,20 @@ submitButton.setAttribute('disabled', '');
 submitButton.textContent = 'Add';
 form.append(submitButton);
 
+const createAlert = (alertType) => {
+  const alert = document.createElement('div');
+  alert.setAttribute('id', 'alert');
+  alert.setAttribute('style', 'position: absolute');
+  alert.classList.add('alert', `alert-${alertType}`);
+  alert.textContent = 'Success!';
+  col.prepend(alert);
+};
+
+const removeAlert = () => {
+  const alert = document.getElementById('alert');
+  alert.remove();
+};
+
 const createFeedElement = (title, description, postItems, postsLinks) => {
   const newFeedElement = document.createElement('div');
   newFeedElement.classList.add('border');
@@ -91,5 +105,7 @@ export default (state) => {
     const lastFeedPosts = state.feedsList[state.feedsList.length - 1][1];
     const lastFeedLinks = state.feedsList[state.feedsList.length - 1][2];
     createFeedElement(feedTitle, feedDescription, lastFeedPosts, lastFeedLinks);
+    createAlert(state.alertType);
+    setTimeout(removeAlert, 3000);
   });
 };
