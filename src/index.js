@@ -41,8 +41,10 @@ const app = () => {
   form.addEventListener('input', (e) => {
     e.preventDefault();
     state.form.inputFieldValue = e.target.value;
+    state.alertType = '';
     if (state.form.inputFieldValue === '') {
       state.form.sbmtButton = 'waiting-blocked';
+      state.alertType = '';
     }
     if ((!isValidUrl(state.form.inputFieldValue)) && state.form.inputFieldValue !== '') {
       state.form.sbmtButton = 'blocked';
