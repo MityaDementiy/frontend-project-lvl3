@@ -118,4 +118,10 @@ export default (state) => {
     createAlert(state.alertType);
     setTimeout(removeAlert, 5000);
   });
+
+  watch(state, 'feedsList', () => {
+    if (!state.feedsList[state.feedsList.length - 1][1]) {
+      form.reset();
+    }
+  });
 };
