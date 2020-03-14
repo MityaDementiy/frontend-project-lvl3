@@ -120,22 +120,21 @@ export default (state) => {
     }
   });
 
-  watch(state.lastFeed, 'title', () => {
-    form.reset();
-    const feedTitle = state.lastFeed.title;
-    const feedDescription = state.lastFeed.description;
-    const lastFeedPosts = state.feedsList[state.feedsList.length - 1][1];
-    const lastFeedLinks = state.feedsList[state.feedsList.length - 1][2];
-    createFeedElement(feedTitle, feedDescription, lastFeedPosts, lastFeedLinks);
-  });
-
   watch(state, 'alertType', () => {
     createAlert(state.alertType);
     setTimeout(removeAlert, 5000);
   });
+
   watch(state, 'feedsList', () => {
-    if (!state.feedsList[state.feedsList.length - 1][1]) {
+    const feedTitle = state.feedsList[state.feedsList.length - 1][1];
+    const feedDescription = state.feedsList[state.feedsList.length - 1][2];
+    const lastFeedPosts = state.feedsList[state.feedsList.length - 1][3];
+    const lastFeedLinks = state.feedsList[state.feedsList.length - 1][4];
+    if (!lastFeedPosts) {
       form.reset();
+      return;
     }
+    form.reset();
+    createFeedElement(feedTitle, feedDescription, lastFeedPosts, lastFeedLinks);
   });
 };

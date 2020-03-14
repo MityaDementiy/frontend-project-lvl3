@@ -11,10 +11,6 @@ const state = {
     sbmtButton: 'waiting-blocked',
   },
   feedsList: [],
-  lastFeed: {
-    title: '',
-    description: '',
-  },
   alertType: '',
 };
 
@@ -66,10 +62,8 @@ const app = () => {
       .then((response) => response.data)
       .then((data) => {
         const [channelTitle, channelDescription, postsTitles, postsLinks] = parseData(data);
-        state.lastFeed.title = channelTitle;
-        state.lastFeed.description = channelDescription;
-        state.feedsList[state.feedsList.length - 1].push(postsTitles);
-        state.feedsList[state.feedsList.length - 1].push(postsLinks);
+        state.feedsList[state.feedsList.length - 1]
+          .push(channelTitle, channelDescription, postsTitles, postsLinks);
         state.alertType = 'success';
         state.alertMessage = data.description;
       })
