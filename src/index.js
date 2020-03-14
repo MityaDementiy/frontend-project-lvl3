@@ -61,22 +61,23 @@ const app = () => {
     state.form.inputFieldValue = '';
     const newFeedUrl = state.feedsList[state.feedsList.length - 1];
     const requestURL = `${proxy}${newFeedUrl}`;
-    try {
-      axios.get(requestURL)
-        .then((response) => response.data)
-        .then((data) => {
-          const [channelTitle, channelDescription, postsTitles, postsLinks] = parseData(data);
-          state.lastFeed.title = channelTitle;
-          state.lastFeed.description = channelDescription;
-          state.feedsList[state.feedsList.length - 1].push(postsTitles);
-          state.feedsList[state.feedsList.length - 1].push(postsLinks);
-          state.alertType = 'success';
-        });
-    } catch (err) {
-      state.alertType = 'danger';
-      state.form.sbmtButton = 'waiting-blocked';
-      throw err;
-    }
+    state.alertType = 'info';
+    axios.get(requestURL)
+      .then((response) => response.data)
+      .then((data) => {
+        const [channelTitle, channelDescription, postsTitles, postsLinks] = parseData(data);
+        state.lastFeed.title = channelTitle;
+        state.lastFeed.description = channelDescription;
+        state.feedsList[state.feedsList.length - 1].push(postsTitles);
+        state.feedsList[state.feedsList.length - 1].push(postsLinks);
+        state.alertType = 'success';
+        state.alertMessage = data.description;
+      })
+      .catch((err) => {
+        state.alertType = 'danger';
+        state.form.sbmtButton = 'waiting-blocked';
+        throw err;
+      });
   });
 
   watch(state);

@@ -1,4 +1,14 @@
 import { watch } from 'melanke-watchjs';
+import i18next from 'i18next';
+import en from './locales/en';
+
+i18next.init({
+  lng: 'en',
+  debug: true,
+  resources: {
+    en,
+  },
+});
 
 const point = document.getElementById('point');
 
@@ -28,7 +38,7 @@ const inputDiv = document.createElement('div');
 inputDiv.classList.add('form-group');
 form.append(inputDiv);
 const label = document.createElement('label');
-label.textContent = 'Add URL to RSS feed';
+label.textContent = i18next.t('formTexts.addURL');
 inputDiv.append(label);
 
 const input = document.createElement('input');
@@ -40,7 +50,7 @@ submitButton.classList.add('btn-primary');
 submitButton.classList.add('btn');
 submitButton.setAttribute('type', 'submit');
 submitButton.setAttribute('disabled', '');
-submitButton.textContent = 'Add';
+submitButton.textContent = i18next.t('formTexts.addButton');;
 form.append(submitButton);
 
 const removeAlert = () => {
@@ -52,11 +62,20 @@ const removeAlert = () => {
 };
 
 const createAlert = (alertType) => {
+  removeAlert();
   const alert = document.createElement('div');
   alert.setAttribute('id', 'alert');
   alert.setAttribute('style', 'position: absolute');
   alert.classList.add('alert', `alert-${alertType}`);
-  alert.textContent = 'Success!';
+  if (alertType === 'danger') {
+    alert.textContent = i18next.t('alertMessages.error');
+  }
+  if (alertType === 'info') {
+    alert.textContent = i18next.t('alertMessages.processing');
+  }
+  if (alertType === 'success') {
+    alert.textContent = i18next.t('alertMessages.success');
+  }
   col.prepend(alert);
 };
 
@@ -111,14 +130,9 @@ export default (state) => {
   });
 
   watch(state, 'alertType', () => {
-    if (state.alertType === '') {
-      removeAlert();
-      return;
-    }
     createAlert(state.alertType);
     setTimeout(removeAlert, 5000);
   });
-
   watch(state, 'feedsList', () => {
     if (!state.feedsList[state.feedsList.length - 1][1]) {
       form.reset();
