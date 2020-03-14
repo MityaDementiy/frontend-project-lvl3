@@ -50,7 +50,7 @@ submitButton.classList.add('btn-primary');
 submitButton.classList.add('btn');
 submitButton.setAttribute('type', 'submit');
 submitButton.setAttribute('disabled', '');
-submitButton.textContent = i18next.t('formTexts.addButton');;
+submitButton.textContent = i18next.t('formTexts.addButton');
 form.append(submitButton);
 
 const removeAlert = () => {
