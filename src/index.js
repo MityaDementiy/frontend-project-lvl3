@@ -65,7 +65,6 @@ const app = () => {
         state.feedsList[state.feedsList.length - 1]
           .push(channelTitle, channelDescription, postsTitles, postsLinks);
         state.alertType = 'success';
-        state.alertMessage = data.description;
       })
       .catch((err) => {
         state.alertType = 'danger';
