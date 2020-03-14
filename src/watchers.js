@@ -122,7 +122,9 @@ export default (state) => {
 
   watch(state, 'alertType', () => {
     createAlert(state.alertType);
-    setTimeout(removeAlert, 5000);
+    if (state.alertType !== 'info') {
+      setTimeout(removeAlert, 5000);
+    }
   });
 
   watch(state, 'feedsList', () => {
