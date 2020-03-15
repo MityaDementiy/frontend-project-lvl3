@@ -104,6 +104,8 @@ const createFeedElement = (title, description, postItems, postsLinks) => {
   });
 };
 
+const isDuplicatedFeedElement = (id) => document.getElementById(id);
+
 export default (state) => {
   watch(state.form, 'sbmtButton', () => {
     if (state.form.sbmtButton === 'active') {
@@ -132,6 +134,9 @@ export default (state) => {
     const feedDescription = state.feedsList[state.feedsList.length - 1][2];
     const lastFeedPosts = state.feedsList[state.feedsList.length - 1][3];
     const lastFeedLinks = state.feedsList[state.feedsList.length - 1][4];
+    if (isDuplicatedFeedElement(feedTitle)) {
+      return;
+    }
     if (!lastFeedPosts) {
       form.reset();
       return;

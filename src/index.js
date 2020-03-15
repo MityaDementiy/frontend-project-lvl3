@@ -21,8 +21,8 @@ const isValidUrl = (string) => {
   const isUrl = () => yup.string().url().required().isValidSync(string);
   const isUniq = () => {
     const feedsArray = state.feedsList;
-    const feedsTitles = feedsArray.map((feed) => feed[0]);
-    if (!feedsTitles.flat().includes(string)) {
+    const feedsUrls = feedsArray.map((feed) => feed[0]);
+    if (!feedsUrls.flat().includes(string)) {
       return true;
     }
     return false;
@@ -71,12 +71,12 @@ const app = () => {
       })
       .catch((err) => {
         state.alertType = 'danger';
-        state.form.sbmtButton = 'waiting-blocked';
         state.updateStatus = 'ready';
         state.feedsList.pop();
         console.log(`We have error: ${err}`);
       });
   });
+
 
   watch(state);
 };
