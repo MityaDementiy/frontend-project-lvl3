@@ -66,9 +66,10 @@ const app = () => {
           .push(channelTitle, channelDescription, postsTitles, postsLinks);
         state.alertType = 'success';
       })
-      .catch(() => {
+      .catch((err) => {
         state.alertType = 'danger';
         state.form.sbmtButton = 'waiting-blocked';
+        console.log(`We have error: ${err}`);
       });
   });
 
