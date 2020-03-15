@@ -6,11 +6,13 @@ const parseData = (data) => {
   const descriptionsCollection = doc.getElementsByTagName('description');
   const channelDescription = descriptionsCollection[0].textContent;
   const titlesArray = Array.from(titlesCollection);
-  const postsTitles = titlesArray.splice(1, titlesArray.length)
+  const postsTitles = titlesArray
+    .splice(1, titlesArray.length)
     .map((title) => title.textContent);
   const linksCollection = doc.getElementsByTagName('link');
   const linksArray = Array.from(linksCollection);
-  const postsLinks = linksArray.splice(1, linksArray.length)
+  const postsLinks = linksArray
+    .splice(1, linksArray.length)
     .map((link) => link.textContent);
 
   return [channelTitle, channelDescription, postsTitles, postsLinks];
