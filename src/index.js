@@ -12,6 +12,7 @@ const state = {
   },
   feedsList: [],
   alertType: '',
+  updateStatus: 'ready',
 };
 
 const proxy = 'https://cors-anywhere.herokuapp.com/';
@@ -55,6 +56,7 @@ const app = () => {
     state.feedsList.push([state.form.inputFieldValue]);
     state.form.sbmtButton = 'waiting-blocked';
     state.form.inputFieldValue = '';
+    state.updateStatus = 'adding';
     const newFeedUrl = state.feedsList[state.feedsList.length - 1];
     const requestURL = `${proxy}${newFeedUrl}`;
     state.alertType = 'info';
@@ -65,10 +67,13 @@ const app = () => {
         state.feedsList[state.feedsList.length - 1]
           .push(channelTitle, channelDescription, postsTitles, postsLinks);
         state.alertType = 'success';
+        state.updateStatus = 'ready';
       })
       .catch((err) => {
         state.alertType = 'danger';
         state.form.sbmtButton = 'waiting-blocked';
+        state.updateStatus = 'ready';
+        state.feedsList.pop();
         console.log(`We have error: ${err}`);
       });
   });
