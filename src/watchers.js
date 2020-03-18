@@ -130,6 +130,10 @@ export default (state) => {
   });
 
   watch(state, 'feedsList', () => {
+    if (state.feedsList.length === 0) {
+      form.reset();
+      return;
+    }
     const feedTitle = state.feedsList[state.feedsList.length - 1][1];
     const feedDescription = state.feedsList[state.feedsList.length - 1][2];
     const lastFeedPosts = state.feedsList[state.feedsList.length - 1][3];
