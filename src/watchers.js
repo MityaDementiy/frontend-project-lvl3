@@ -83,7 +83,7 @@ const createFeedElement = (title, description, postItems, postsLinks) => {
   const newFeedElement = document.createElement('div');
   newFeedElement.classList.add('border');
   newFeedElement.classList.add('rounded');
-  newFeedElement.setAttribute('style', 'padding: 10px');
+  newFeedElement.setAttribute('style', 'padding: 10px; margin-bottom: 10px');
   newFeedElement.setAttribute('id', `${title}`);
   col.append(newFeedElement);
   const feedName = document.createElement('h3');
