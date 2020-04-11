@@ -33,6 +33,43 @@ const isValidUrl = (string) => {
   return false;
 };
 
+const updateFeeds = () => {
+  const urlsToUpdate = state.feedsList.map((feed) => feed[0]);
+  if (urlsToUpdate.length < 1) {
+    return;
+  }
+  state.updateStatus = 'updating';
+  urlsToUpdate.forEach((url) => {
+    const requestURL = `${proxy}${url}`;
+    const feedTitles = state.feedsList
+      .filter((el) => el[0] === url)
+      .map((el) => el[3]);
+    const feedUrls = state.feedsList
+      .filter((el) => el[0] === url)
+      .map((el) => el[4]);
+    axios.get(requestURL)
+      .then((response) => response.data)
+      .then((data) => {
+        const [,, postTitles, postLinks] = parseData(data);
+        const newPostTitles = postTitles.filter((title) => !feedTitles.includes(title));
+        const newPostLinks = postLinks.filter((link) => !feedUrls.includes(link));
+        state.feedsList.forEach((feedElement) => {
+          if (feedElement[0] === url) {
+            feedElement[3].push(newPostTitles);
+            feedElement[4].push(newPostLinks);
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(`We have error: ${err}`);
+      })
+      .finally(() => {
+        state.updateStatus = 'updated';
+      });
+  });
+  setTimeout(updateFeeds, 5000);
+};
+
 const app = () => {
   const form = document.querySelector('form');
   form.addEventListener('input', (e) => {
@@ -75,8 +112,10 @@ const app = () => {
         state.feedsList.pop();
         console.log(`We have error: ${err}`);
       });
+    if (state.feedsList.length === 1) {
+      setTimeout(updateFeeds, 15000);
+    }
   });
-
 
   watch(state);
 };
