@@ -102,8 +102,7 @@ const createFeedElement = (title, description, postItems, postsLinks) => {
   });
 };
 
-const isDuplicatedFeedElement = (id) => document.getElementById(id);
-const isDuplicatedElement = (elId) => document.getElementById(elId);
+const isDuplicatedElement = (id) => document.getElementById(id);
 
 const updateFeedElements = (title, posts, links) => {
   const feedElement = document.getElementById(title);
@@ -164,7 +163,7 @@ export default (state) => {
     const feedDescription = state.feedsList[state.feedsList.length - 1][2];
     const lastFeedPosts = state.feedsList[state.feedsList.length - 1][3];
     const lastFeedLinks = state.feedsList[state.feedsList.length - 1][4];
-    if (isDuplicatedFeedElement(feedTitle)) {
+    if (isDuplicatedElement(feedTitle)) {
       return;
     }
     if (!lastFeedPosts) {
