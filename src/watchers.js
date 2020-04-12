@@ -67,15 +67,12 @@ const createAlert = (alertType) => {
   alert.setAttribute('id', 'alert');
   alert.setAttribute('style', 'position: absolute');
   alert.classList.add('alert', `alert-${alertType}`);
-  if (alertType === 'danger') {
-    alert.textContent = i18next.t('alertMessages.error');
-  }
-  if (alertType === 'info') {
-    alert.textContent = i18next.t('alertMessages.processing');
-  }
-  if (alertType === 'success') {
-    alert.textContent = i18next.t('alertMessages.success');
-  }
+  const mapping = {
+    danger: i18next.t('alertMessages.error'),
+    info: i18next.t('alertMessages.processing'),
+    success: i18next.t('alertMessages.success'),
+  };
+  alert.textContent = mapping[alertType];
   col.prepend(alert);
 };
 
