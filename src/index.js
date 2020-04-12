@@ -51,7 +51,7 @@ const updateFeeds = () => {
     axios.get(requestURL)
       .then((response) => response.data)
       .then((data) => {
-        const [,, postTitles, postLinks] = parseData(data);
+        const [, , postTitles, postLinks] = parseData(data);
         const newPostTitles = postTitles.filter((title) => !feedTitles.includes(title));
         const newPostLinks = postLinks.filter((link) => !feedUrls.includes(link));
         state.feedsList.forEach((feedElement) => {
@@ -71,52 +71,56 @@ const updateFeeds = () => {
   setTimeout(updateFeeds, updatePeriod);
 };
 
-const app = () => {
-  const form = document.querySelector('form');
-  form.addEventListener('input', (e) => {
-    e.preventDefault();
-    state.form.inputFieldValue = e.target.value;
-    state.alertType = '';
-    if (state.form.inputFieldValue === '') {
-      state.form.sbmtButton = 'waiting-blocked';
-      state.alertType = '';
-    }
-    if ((!isValidUrl(state.form.inputFieldValue)) && state.form.inputFieldValue !== '') {
-      state.form.sbmtButton = 'blocked';
-    }
-    if (isValidUrl(state.form.inputFieldValue)) {
-      state.form.sbmtButton = 'active';
-    }
-  });
+const form = document.querySelector('form');
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    state.feedsList.push([state.form.inputFieldValue]);
+const inputHandler = (e) => {
+  e.preventDefault();
+  state.form.inputFieldValue = e.target.value;
+  state.alertType = '';
+  if (state.form.inputFieldValue === '') {
     state.form.sbmtButton = 'waiting-blocked';
-    state.form.inputFieldValue = '';
-    state.updateStatus = 'adding';
-    const newFeedUrl = state.feedsList[state.feedsList.length - 1];
-    const requestURL = `${proxy}${newFeedUrl}`;
-    state.alertType = 'info';
-    axios.get(requestURL)
-      .then((response) => response.data)
-      .then((data) => {
-        const [channelTitle, channelDescription, postsTitles, postsLinks] = parseData(data);
-        state.feedsList[state.feedsList.length - 1]
-          .push(channelTitle, channelDescription, postsTitles, postsLinks);
-        state.alertType = 'success';
-        state.updateStatus = 'ready';
-      })
-      .catch((err) => {
-        state.alertType = 'danger';
-        state.updateStatus = 'ready';
-        state.feedsList.pop();
-        console.log(`We have error: ${err}`);
-      });
-    if (state.feedsList.length === 1) {
-      setTimeout(updateFeeds, updatePeriod);
-    }
-  });
+    state.alertType = '';
+  }
+  if ((!isValidUrl(state.form.inputFieldValue)) && state.form.inputFieldValue !== '') {
+    state.form.sbmtButton = 'blocked';
+  }
+  if (isValidUrl(state.form.inputFieldValue)) {
+    state.form.sbmtButton = 'active';
+  }
+};
+
+const submitHandler = (e) => {
+  e.preventDefault();
+  state.feedsList.push([state.form.inputFieldValue]);
+  state.form.sbmtButton = 'waiting-blocked';
+  state.form.inputFieldValue = '';
+  state.updateStatus = 'adding';
+  const newFeedUrl = state.feedsList[state.feedsList.length - 1];
+  const requestURL = `${proxy}${newFeedUrl}`;
+  state.alertType = 'info';
+  axios.get(requestURL)
+    .then((response) => response.data)
+    .then((data) => {
+      const [channelTitle, channelDescription, postsTitles, postsLinks] = parseData(data);
+      state.feedsList[state.feedsList.length - 1]
+        .push(channelTitle, channelDescription, postsTitles, postsLinks);
+      state.alertType = 'success';
+      state.updateStatus = 'ready';
+    })
+    .catch((err) => {
+      state.alertType = 'danger';
+      state.updateStatus = 'ready';
+      state.feedsList.pop();
+      console.log(`We have error: ${err}`);
+    });
+  if (state.feedsList.length === 1) {
+    setTimeout(updateFeeds, updatePeriod);
+  }
+};
+
+const app = () => {
+  form.addEventListener('input', inputHandler);
+  form.addEventListener('submit', submitHandler);
   watch(state);
 };
 
