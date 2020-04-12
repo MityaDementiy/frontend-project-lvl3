@@ -71,8 +71,6 @@ const updateFeeds = () => {
   setTimeout(updateFeeds, updatePeriod);
 };
 
-const form = document.querySelector('form');
-
 const inputHandler = (e) => {
   e.preventDefault();
   state.form.inputFieldValue = e.target.value;
@@ -119,6 +117,7 @@ const submitHandler = (e) => {
 };
 
 const app = () => {
+  const form = document.querySelector('form');
   form.addEventListener('input', inputHandler);
   form.addEventListener('submit', submitHandler);
   watch(state);
