@@ -16,6 +16,7 @@ const state = {
 };
 
 const proxy = 'https://cors-anywhere.herokuapp.com/';
+const updatePeriod = 5000;
 
 const isValidUrl = (string) => {
   const isUrl = () => yup.string().url().required().isValidSync(string);
@@ -67,7 +68,7 @@ const updateFeeds = () => {
         state.updateStatus = 'updated';
       });
   });
-  setTimeout(updateFeeds, 5000);
+  setTimeout(updateFeeds, updatePeriod);
 };
 
 const app = () => {
@@ -113,10 +114,9 @@ const app = () => {
         console.log(`We have error: ${err}`);
       });
     if (state.feedsList.length === 1) {
-      setTimeout(updateFeeds, 15000);
+      setTimeout(updateFeeds, updatePeriod);
     }
   });
-
   watch(state);
 };
 
