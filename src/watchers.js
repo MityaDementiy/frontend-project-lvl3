@@ -130,17 +130,21 @@ const updateFeedElements = (title, posts, links) => {
 
 export default (state) => {
   watch(state.form, 'sbmtButton', () => {
-    if (state.form.sbmtButton === 'active') {
-      submitButton.removeAttribute('disabled');
-      input.classList.remove('is-invalid');
-    }
-    if (state.form.sbmtButton === 'blocked') {
-      submitButton.setAttribute('disabled', '');
-      input.classList.add('is-invalid');
-    }
-    if (state.form.sbmtButton === 'waiting-blocked') {
-      input.classList.remove('is-invalid');
-      submitButton.setAttribute('disabled', '');
+    switch (state.form.sbmtButton) {
+      case 'active':
+        submitButton.removeAttribute('disabled');
+        input.classList.remove('is-invalid');
+        break;
+      case 'blocked':
+        submitButton.setAttribute('disabled', '');
+        input.classList.add('is-invalid');
+        break;
+      case 'waiting-blocked':
+        input.classList.remove('is-invalid');
+        submitButton.setAttribute('disabled', '');
+        break;
+      default:
+        throw new Error(`Error! '${state.form.sbmtButton}' is unknown state.`);
     }
   });
 
