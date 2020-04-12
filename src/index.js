@@ -92,7 +92,6 @@ const submitHandler = (e) => {
   state.feedsList.push([state.form.inputFieldValue]);
   state.form.sbmtButton = 'waiting-blocked';
   state.form.inputFieldValue = '';
-  state.updateStatus = 'adding';
   const newFeedUrl = state.feedsList[state.feedsList.length - 1];
   const requestURL = `${proxy}${newFeedUrl}`;
   state.alertType = 'info';
@@ -103,11 +102,9 @@ const submitHandler = (e) => {
       state.feedsList[state.feedsList.length - 1]
         .push(channelTitle, channelDescription, postsTitles, postsLinks);
       state.alertType = 'success';
-      state.updateStatus = 'ready';
     })
     .catch((err) => {
       state.alertType = 'danger';
-      state.updateStatus = 'ready';
       state.feedsList.pop();
       console.log(`We have error: ${err}`);
     });
