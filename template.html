@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   </head>
   <body>
-    <div id="point"></div>
+    <div id="point" class='container-fluid'>
+      <div class='row justify-content-center'>
+        <div id='column' class='col-sm-6 col-12'>
+          <div class='jumbotron'>
+            <form id='formRSS'>
+              <div class='form-group'>
+                <label>
+                  Add URL to your feed
+                </label>
+                <input id='rssInput' class='form-control'>
+              </div>
+              <button class='btn btn-primary' type='submit' disabled id='submitButton'>Add</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
