@@ -1,7 +1,7 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import * as yup from 'yup';
 import axios from 'axios';
+import isValidUrl from './validator';
 import watch from './watchers';
 import parseData from './parser';
 
@@ -17,4 +17,17 @@ export default () => {
     posts: [],
     postsLinks: [],
   };
+
+  const form = document.getElementById('formRSS');
+  form.addEventListener('input', (e) => {
+    e.preventDefault();
+    const inputValue = e.target.value;
+    if (!isValidUrl(inputValue, state.feeds)) {
+      state.form.fillingProcess.validationState = 'invalid';
+    }
+    if (isValidUrl(inputValue, state.feeds)) {
+      state.form.fillingProcess.validationState = 'valid';
+    }
+  });
+  watch(state);
 };
