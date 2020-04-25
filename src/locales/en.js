@@ -5,9 +5,5 @@ export default {
       processing: 'Trying to get and process feed...',
       error: 'Error! Try another feed, or try this feed later :-(',
     },
-    formTexts: {
-      addURL: 'Add URL to your feed',
-      addButton: 'Add',
-    },
   },
 };
