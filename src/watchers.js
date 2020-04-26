@@ -21,6 +21,7 @@ export default (state) => {
       success: 'success',
       error: 'danger',
       emptySubmit: 'warning',
+      invalid: 'dark',
     };
     const alertType = alertTypeMapping[fillingState];
     const alert = document.createElement('div');
@@ -32,6 +33,7 @@ export default (state) => {
       info: i18next.t('alertMessages.processing'),
       success: i18next.t('alertMessages.success'),
       warning: i18next.t('alertMessages.warning'),
+      dark: i18next.t('alertMessages.invalid'),
     };
     alert.textContent = alertMessagesMapping[alertType];
     container.prepend(alert);
@@ -59,6 +61,17 @@ export default (state) => {
   watch(state.form.fillingProcess, 'validationState', () => {
     input.classList.toggle('is-invalid');
     sbmtButton.toggleAttribute('disabled');
+    const urlCheckingState = state.form.fillingProcess.validationState;
+    switch (urlCheckingState) {
+      case 'invalid':
+        createAlert(urlCheckingState);
+        break;
+      case 'valid':
+        removeAlert();
+        break;
+      default:
+        throw new Error(`Error! '${urlCheckingState}' is unknown state.`);
+    }
   });
 
   watch(state.form.fillingProcess, 'state', () => {
