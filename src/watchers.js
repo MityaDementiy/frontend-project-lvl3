@@ -44,6 +44,10 @@ export default (state) => {
     if (state.form.fillingProcess.state === 'filling') {
       return;
     }
+    const removeAlertPeriod = 5000;
     createAlert(state.form.fillingProcess.state);
+    if (state.form.fillingProcess.state !== 'processing') {
+      setTimeout(removeAlert, removeAlertPeriod);
+    }
   });
 };
