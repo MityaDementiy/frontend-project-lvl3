@@ -17,7 +17,6 @@ export default () => {
     },
     feeds: [],
     posts: [],
-    postsLinks: [],
     inputValues: [],
   };
 
@@ -52,9 +51,11 @@ export default () => {
     axios.get(requestURL)
       .then((response) => response.data)
       .then((data) => {
-        const [postsTitles, postsLinks] = parseData(data);
-        state.posts.push(postsTitles);
-        state.postsLinks.push(postsLinks);
+        const posts = parseData(data);
+        posts.forEach((post) => {
+          state.posts.push(post);
+        });
+        state.feeds.push(feedUrl);
         state.form.fillingProcess.state = 'success';
       })
       .catch((err) => {
