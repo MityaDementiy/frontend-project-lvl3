@@ -62,17 +62,30 @@ export default (state) => {
   });
 
   watch(state.form.fillingProcess, 'state', () => {
-    if (state.form.fillingProcess.state === 'filling') {
+    const formState = state.form.fillingProcess.state;
+    if (formState === 'filling') {
       return;
     }
     const form = document.getElementById('formRSS');
     const removeAlertPeriod = 5000;
-    createAlert(state.form.fillingProcess.state);
-    if (state.form.fillingProcess.state !== 'processing') {
-      setTimeout(removeAlert, removeAlertPeriod);
-    }
-    if (state.form.fillingProcess.state === 'success') {
-      addPosts(state.posts);
+    switch (formState) {
+      case 'emptySubmit':
+        createAlert(formState);
+        break;
+      case 'processing':
+        createAlert(formState);
+        break;
+      case 'success':
+        createAlert(formState);
+        addPosts(state.posts);
+        setTimeout(removeAlert, removeAlertPeriod);
+        break;
+      case 'error':
+        createAlert(formState);
+        setTimeout(removeAlert, removeAlertPeriod);
+        break;
+      default:
+        throw new Error(`Error! '${formState}' is unknown state.`);
     }
     form.reset();
   });
