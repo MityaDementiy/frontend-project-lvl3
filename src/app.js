@@ -45,6 +45,11 @@ export default () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const feedUrl = state.inputValues[state.inputValues.length - 1];
+    if (!feedUrl) {
+      state.form.fillingProcess.state = 'emptySubmit';
+      state.inputValues.length = 0;
+      return;
+    }
     state.inputValues.length = 0;
     state.form.fillingProcess.state = 'processing';
     const requestURL = `${proxy}${feedUrl}`;
