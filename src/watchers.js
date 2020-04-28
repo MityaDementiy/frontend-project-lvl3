@@ -43,18 +43,18 @@ export default (state) => {
 
   const addPosts = (posts) => {
     const postsList = document.getElementById('postsList');
-    const uniqPosts = posts
-      .filter((post) => isUniq(post.title))
-      .reverse();
-    uniqPosts.forEach((post) => {
-      const postItem = document.createElement('li');
-      const postLink = document.createElement('a');
-      postLink.textContent = `${post.title} — ${post.feedName}`;
-      postLink.setAttribute('href', `${post.link}`);
-      postLink.setAttribute('target', '_blank');
-      postItem.append(postLink);
-      postItem.setAttribute('id', `${post.title}`);
-      postsList.prepend(postItem);
+    const reversedPosts = posts.reverse();
+    reversedPosts.forEach((post) => {
+      if (isUniq(post.id)) {
+        const postItem = document.createElement('li');
+        const postLink = document.createElement('a');
+        postLink.textContent = `${post.title} — ${post.feedName}`;
+        postLink.setAttribute('href', `${post.link}`);
+        postLink.setAttribute('target', '_blank');
+        postItem.append(postLink);
+        postItem.setAttribute('id', `${post.id}`);
+        postsList.prepend(postItem);
+      }
     });
   };
 
@@ -101,5 +101,11 @@ export default (state) => {
         throw new Error(`Error! '${formState}' is unknown state.`);
     }
     form.reset();
+  });
+
+  watch(state, 'updateStatus', () => {
+    if (state.updateStatus === 'updated') {
+      addPosts(state.posts);
+    }
   });
 };

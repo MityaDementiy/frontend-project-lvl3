@@ -18,6 +18,7 @@ export default () => {
     feeds: [],
     posts: [],
     inputValues: [],
+    updateStatus: '',
   };
 
   i18next.init({
@@ -30,6 +31,38 @@ export default () => {
 
   const form = document.getElementById('formRSS');
   const proxy = 'https://cors-anywhere.herokuapp.com/';
+  const updatePeriod = 5000;
+
+  const updateFeeds = () => {
+    state.updateStatus = 'updating';
+    const urls = state.feeds;
+    const addedPosts = state.posts;
+    const identificators = addedPosts.map((post) => post.id);
+    urls.forEach((url) => {
+      const requestURL = `${proxy}${url}`;
+      axios.get(requestURL)
+        .then((response) => response.data)
+        .then((data) => {
+          const posts = parseData(data);
+          posts.forEach((post) => {
+            const { title, link, feedName } = post;
+            const id = `${title}_${feedName}`;
+            if (!identificators.includes(id)) {
+              state.posts.push({
+                title, link, feedName, id,
+              });
+            }
+          });
+          state.updateStatus = 'updated';
+        })
+        .catch((err) => {
+          console.log(`We have error: ${err}`);
+        });
+    });
+    setTimeout(updateFeeds, updatePeriod);
+  };
+
+  setTimeout(updateFeeds, updatePeriod);
 
   form.addEventListener('input', (e) => {
     e.preventDefault();
@@ -58,7 +91,11 @@ export default () => {
       .then((data) => {
         const posts = parseData(data);
         posts.forEach((post) => {
-          state.posts.push(post);
+          const { title, link, feedName } = post;
+          const id = `${title}_${feedName}`;
+          state.posts.push({
+            title, link, feedName, id,
+          });
         });
         state.feeds.push(feedUrl);
         state.form.fillingProcess.state = 'success';
