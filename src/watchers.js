@@ -39,16 +39,9 @@ export default (state) => {
     container.prepend(alert);
   };
 
-  const removeRenderedPosts = () => {
-    const renderedPosts = document.querySelectorAll('li');
-    renderedPosts.forEach((post) => {
-      post.remove();
-    });
-  };
-
   const addPosts = (posts) => {
-    removeRenderedPosts();
     const postsList = document.getElementById('postsList');
+    postsList.innerHTML = '';
     posts.forEach((post) => {
       const postItem = document.createElement('li');
       const postLink = document.createElement('a');
