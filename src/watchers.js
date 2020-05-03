@@ -29,7 +29,7 @@ export default (state) => {
     alert.setAttribute('style', 'position: absolute');
     alert.classList.add('alert', `alert-${alertType}`);
     const alertMessagesMapping = {
-      danger: i18next.t('alertMessages.error'),
+      danger: `${state.form.fillingProcess.error}`,
       info: i18next.t('alertMessages.processing'),
       success: i18next.t('alertMessages.success'),
       warning: i18next.t('alertMessages.warning'),

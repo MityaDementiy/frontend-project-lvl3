@@ -15,6 +15,7 @@ export default () => {
         state: '',
         validationState: 'valid',
         inputValue: '',
+        error: '',
       },
     },
     feeds: [],
@@ -100,6 +101,7 @@ export default () => {
       })
       .catch((err) => {
         state.form.fillingProcess.state = 'error';
+        state.form.fillingProcess.error = err;
         state.form.fillingProcess.inputValue = '';
         console.log(`We have error: ${err}`);
       });
