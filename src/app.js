@@ -2,6 +2,7 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import i18next from 'i18next';
+import _ from 'lodash';
 import isValidUrl from './validator';
 import watch from './watchers';
 import parseRss from './parser';
@@ -36,22 +37,20 @@ export default () => {
   const updateFeeds = () => {
     state.updateStatus = 'updating';
     const urls = state.feeds;
-    const addedPosts = state.posts;
-    const identificators = addedPosts.map((post) => post.id);
+    const currentPosts = state.posts;
     urls.forEach((url) => {
       const requestURL = `${proxy}${url}`;
       axios.get(requestURL)
         .then((response) => response.data)
         .then((data) => {
           const posts = parseRss(data);
-          posts.forEach((post) => {
+          const newPosts = _.differenceBy(posts, currentPosts, 'title');
+          newPosts.forEach((post) => {
             const { title, link, feedName } = post;
             const id = `${title}_${feedName}`;
-            if (!identificators.includes(id)) {
-              state.posts.push({
-                title, link, feedName, id,
-              });
-            }
+            state.posts.push({
+              title, link, feedName, id,
+            });
           });
           state.updateStatus = 'updated';
         })
