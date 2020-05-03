@@ -67,12 +67,11 @@ export default () => {
   form.addEventListener('input', (e) => {
     e.preventDefault();
     const inputValue = e.target.value;
-    if (!isValidUrl(inputValue, state.feeds)) {
-      state.form.fillingProcess.validationState = 'invalid';
-    }
     if (isValidUrl(inputValue, state.feeds)) {
       state.form.fillingProcess.validationState = 'valid';
       state.inputValues.push(inputValue);
+    } else {
+      state.form.fillingProcess.validationState = 'invalid';
     }
   });
   form.addEventListener('submit', (e) => {
