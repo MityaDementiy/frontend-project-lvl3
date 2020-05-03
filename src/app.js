@@ -90,7 +90,8 @@ export default () => {
       .then((response) => response.data)
       .then((data) => {
         const posts = parseRss(data);
-        posts.forEach((post) => {
+        const reversedPosts = posts.reverse();
+        reversedPosts.forEach((post) => {
           const { title, link, feedName } = post;
           const id = `${title}_${feedName}`;
           state.posts.push({

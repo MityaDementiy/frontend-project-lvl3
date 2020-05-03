@@ -39,22 +39,25 @@ export default (state) => {
     container.prepend(alert);
   };
 
-  const isUniq = (id) => !document.getElementById(id);
+  const removeRenderedPosts = () => {
+    const renderedPosts = document.querySelectorAll('li');
+    renderedPosts.forEach((post) => {
+      post.remove();
+    });
+  };
 
   const addPosts = (posts) => {
+    removeRenderedPosts();
     const postsList = document.getElementById('postsList');
-    const reversedPosts = posts.reverse();
-    reversedPosts.forEach((post) => {
-      if (isUniq(post.id)) {
-        const postItem = document.createElement('li');
-        const postLink = document.createElement('a');
-        postLink.textContent = `${post.title} — ${post.feedName}`;
-        postLink.setAttribute('href', `${post.link}`);
-        postLink.setAttribute('target', '_blank');
-        postItem.append(postLink);
-        postItem.setAttribute('id', `${post.id}`);
-        postsList.prepend(postItem);
-      }
+    posts.forEach((post) => {
+      const postItem = document.createElement('li');
+      const postLink = document.createElement('a');
+      postLink.textContent = `${post.title} — ${post.feedName}`;
+      postLink.setAttribute('href', `${post.link}`);
+      postLink.setAttribute('target', '_blank');
+      postItem.append(postLink);
+      postItem.setAttribute('id', `${post.id}`);
+      postsList.prepend(postItem);
     });
   };
 
