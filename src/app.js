@@ -4,7 +4,7 @@ import axios from 'axios';
 import i18next from 'i18next';
 import isValidUrl from './validator';
 import watch from './watchers';
-import parseData from './parser';
+import parseRss from './parser';
 import en from './locales/en';
 
 export default () => {
@@ -43,7 +43,7 @@ export default () => {
       axios.get(requestURL)
         .then((response) => response.data)
         .then((data) => {
-          const posts = parseData(data);
+          const posts = parseRss(data);
           posts.forEach((post) => {
             const { title, link, feedName } = post;
             const id = `${title}_${feedName}`;
@@ -89,7 +89,7 @@ export default () => {
     axios.get(requestURL)
       .then((response) => response.data)
       .then((data) => {
-        const posts = parseData(data);
+        const posts = parseRss(data);
         posts.forEach((post) => {
           const { title, link, feedName } = post;
           const id = `${title}_${feedName}`;

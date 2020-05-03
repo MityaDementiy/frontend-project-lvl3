@@ -1,4 +1,4 @@
-const parseData = (data) => {
+const parseRss = (data) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(data, 'application/xml');
   const feedName = doc.querySelector('title').textContent;
@@ -16,4 +16,4 @@ const parseData = (data) => {
   });
   return posts;
 };
-export default parseData;
+export default parseRss;
