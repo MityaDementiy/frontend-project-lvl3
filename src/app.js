@@ -13,11 +13,11 @@ export default () => {
       fillingProcess: {
         state: '',
         validationState: 'valid',
+        inputValue: '',
       },
     },
     feeds: [],
     posts: [],
-    inputValues: [],
     updateStatus: '',
   };
 
@@ -69,20 +69,18 @@ export default () => {
     const inputValue = e.target.value;
     if (isValidUrl(inputValue, state.feeds)) {
       state.form.fillingProcess.validationState = 'valid';
-      state.inputValues.push(inputValue);
+      state.form.fillingProcess.inputValue = inputValue;
     } else {
       state.form.fillingProcess.validationState = 'invalid';
     }
   });
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const feedUrl = state.inputValues[state.inputValues.length - 1];
+    const feedUrl = state.form.fillingProcess.inputValue;
     if (!feedUrl) {
       state.form.fillingProcess.state = 'emptySubmit';
-      state.inputValues.length = 0;
       return;
     }
-    state.inputValues.length = 0;
     state.form.fillingProcess.state = 'processing';
     const requestURL = `${proxy}${feedUrl}`;
     axios.get(requestURL)
@@ -98,10 +96,12 @@ export default () => {
           });
         });
         state.feeds.push(feedUrl);
+        state.form.fillingProcess.inputValue = '';
         state.form.fillingProcess.state = 'success';
       })
       .catch((err) => {
         state.form.fillingProcess.state = 'error';
+        state.form.fillingProcess.inputValue = '';
         console.log(`We have error: ${err}`);
       });
   });
