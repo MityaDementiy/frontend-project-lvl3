@@ -15,7 +15,6 @@ export default () => {
         state: '',
         validationState: 'valid',
         inputValue: '',
-        error: '',
       },
     },
     feeds: [],
@@ -100,10 +99,15 @@ export default () => {
         state.form.fillingProcess.state = 'success';
       })
       .catch((err) => {
-        state.form.fillingProcess.state = 'error';
-        state.form.fillingProcess.error = err;
-        state.form.fillingProcess.inputValue = '';
-        console.log(`We have error: ${err}`);
+        if (err.response) {
+          state.form.fillingProcess.state = 'networkError';
+          state.form.fillingProcess.inputValue = '';
+          console.log(`We have error: ${err}`);
+        } else {
+          state.form.fillingProcess.state = 'error';
+          state.form.fillingProcess.inputValue = '';
+          console.log(`We have error: ${err}`);
+        }
       });
   });
 

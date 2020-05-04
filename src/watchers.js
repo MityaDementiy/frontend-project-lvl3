@@ -19,9 +19,10 @@ export default (state) => {
     const alertTypeMapping = {
       processing: 'info',
       success: 'success',
-      error: 'danger',
-      emptySubmit: 'warning',
+      error: 'warning',
+      emptySubmit: 'secondary',
       invalid: 'dark',
+      networkError: 'danger',
     };
     const alertType = alertTypeMapping[fillingState];
     const alert = document.createElement('div');
@@ -29,11 +30,12 @@ export default (state) => {
     alert.setAttribute('style', 'position: absolute');
     alert.classList.add('alert', `alert-${alertType}`);
     const alertMessagesMapping = {
-      danger: `${state.form.fillingProcess.error}`,
+      danger: i18next.t('alertMessages.danger'),
       info: i18next.t('alertMessages.processing'),
       success: i18next.t('alertMessages.success'),
       warning: i18next.t('alertMessages.warning'),
       dark: i18next.t('alertMessages.invalid'),
+      secondary: i18next.t('alertMessages.secondary'),
     };
     alert.textContent = alertMessagesMapping[alertType];
     container.prepend(alert);
@@ -90,6 +92,10 @@ export default (state) => {
         setTimeout(removeAlert, removeAlertPeriod);
         break;
       case 'error':
+        createAlert(formState);
+        setTimeout(removeAlert, removeAlertPeriod);
+        break;
+      case 'networkError':
         createAlert(formState);
         setTimeout(removeAlert, removeAlertPeriod);
         break;
