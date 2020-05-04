@@ -104,7 +104,7 @@ export default () => {
           state.form.fillingProcess.inputValue = '';
           console.log(`We have error: ${err}`);
         } else {
-          state.form.fillingProcess.state = 'error';
+          state.form.fillingProcess.state = 'feedError';
           state.form.fillingProcess.inputValue = '';
           console.log(`We have error: ${err}`);
         }

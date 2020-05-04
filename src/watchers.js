@@ -19,7 +19,7 @@ export default (state) => {
     const alertTypeMapping = {
       processing: 'info',
       success: 'success',
-      error: 'warning',
+      feedError: 'warning',
       emptySubmit: 'secondary',
       invalid: 'dark',
       networkError: 'danger',
@@ -91,7 +91,7 @@ export default (state) => {
         addPosts(state.posts);
         setTimeout(removeAlert, removeAlertPeriod);
         break;
-      case 'error':
+      case 'feedError':
         createAlert(formState);
         setTimeout(removeAlert, removeAlertPeriod);
         break;
