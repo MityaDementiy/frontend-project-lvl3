@@ -81,22 +81,17 @@ export default (state) => {
     const removeAlertPeriod = 5000;
     switch (formState) {
       case 'emptySubmit':
-        createAlert(formState);
-        break;
       case 'processing':
         createAlert(formState);
+        break;
+      case 'feedError':
+      case 'networkError':
+        createAlert(formState);
+        setTimeout(removeAlert, removeAlertPeriod);
         break;
       case 'success':
         createAlert(formState);
         addPosts(state.posts);
-        setTimeout(removeAlert, removeAlertPeriod);
-        break;
-      case 'feedError':
-        createAlert(formState);
-        setTimeout(removeAlert, removeAlertPeriod);
-        break;
-      case 'networkError':
-        createAlert(formState);
         setTimeout(removeAlert, removeAlertPeriod);
         break;
       default:
