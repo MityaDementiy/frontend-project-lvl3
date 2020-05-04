@@ -2,7 +2,7 @@ import { watch } from 'melanke-watchjs';
 import i18next from 'i18next';
 
 export default (state) => {
-  const sbmtButton = document.getElementById('submitButton');
+  const submitButton = document.getElementById('submitButton');
   const input = document.getElementById('rssInput');
   const container = document.getElementById('column');
 
@@ -56,7 +56,7 @@ export default (state) => {
 
   watch(state.form.fillingProcess, 'validationState', () => {
     input.classList.toggle('is-invalid');
-    sbmtButton.toggleAttribute('disabled');
+    submitButton.toggleAttribute('disabled');
     const urlCheckingState = state.form.fillingProcess.validationState;
     switch (urlCheckingState) {
       case 'invalid':

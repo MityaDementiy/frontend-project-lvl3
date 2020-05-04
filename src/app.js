@@ -37,9 +37,9 @@ export default () => {
 
   const updateFeeds = () => {
     state.updateStatus = 'updating';
-    const urls = state.feeds;
+    const feedsUrls = state.feeds;
     const currentPosts = state.posts;
-    urls.forEach((url) => {
+    feedsUrls.forEach((url) => {
       const requestURL = `${proxy}${url}`;
       axios.get(requestURL)
         .then((response) => response.data)
