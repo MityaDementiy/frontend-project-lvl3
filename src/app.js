@@ -38,11 +38,12 @@ export default () => {
     state.updateStatus = 'updating';
     const feedsUrls = state.feeds;
     const currentPosts = state.posts;
-    feedsUrls.forEach((url) => {
-      const requestURL = `${proxy}${url}`;
-      axios.get(requestURL)
-        .then((response) => response.data)
-        .then((data) => {
+    const requestsResponses = feedsUrls.map((url) => axios.get(`${proxy}${url}`).catch((err) => {
+      throw new Error(`Error: ${err}`);
+    }));
+    Promise.all(requestsResponses)
+      .then((responses) => {
+        responses.forEach(({ data }) => {
           const posts = parseRss(data);
           const newPosts = _.differenceBy(posts, currentPosts, 'title');
           newPosts.forEach((post) => {
@@ -52,13 +53,12 @@ export default () => {
               title, link, feedName, id,
             });
           });
-          state.updateStatus = 'updated';
-        })
-        .catch((err) => {
-          console.log(`We have error: ${err}`);
         });
-    });
-    setTimeout(updateFeeds, updatePeriod);
+      })
+      .finally(() => {
+        state.updateStatus = 'updated';
+        setTimeout(updateFeeds, updatePeriod);
+      });
   };
 
   setTimeout(updateFeeds, updatePeriod);
@@ -102,11 +102,11 @@ export default () => {
         if (err.response) {
           state.form.fillingProcess.state = 'networkError';
           state.form.fillingProcess.inputValue = '';
-          console.log(`We have error: ${err}`);
+          throw new Error(`Error: ${err}`);
         } else {
           state.form.fillingProcess.state = 'feedError';
           state.form.fillingProcess.inputValue = '';
-          console.log(`We have error: ${err}`);
+          throw new Error(`Error: ${err}`);
         }
       });
   });
