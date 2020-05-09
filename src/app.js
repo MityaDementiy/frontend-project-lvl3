@@ -55,6 +55,9 @@ export default () => {
           });
         });
       })
+      .catch((err) => {
+        throw new Error(`Error: ${err}`);
+      })
       .finally(() => {
         state.updateStatus = 'updated';
         setTimeout(updateFeeds, updatePeriod);
