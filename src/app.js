@@ -45,7 +45,7 @@ export default () => {
       .then((responses) => {
         responses.forEach(({ data }) => {
           const posts = parseRss(data);
-          const newPosts = _.differenceBy(posts, currentPosts, 'title');
+          const newPosts = _.differenceBy(posts, currentPosts, (post) => `${post.title}_${post.feedName}`);
           newPosts.forEach((post) => {
             const { title, link, feedName } = post;
             const id = `${title}_${feedName}`;
