@@ -38,9 +38,7 @@ export default () => {
     state.updateStatus = 'updating';
     const feedsUrls = state.feeds;
     const currentPosts = state.posts;
-    const requestsResponses = feedsUrls.map((url) => axios.get(`${proxy}${url}`).catch((err) => {
-      throw new Error(`Error: ${err}`);
-    }));
+    const requestsResponses = feedsUrls.map((url) => axios.get(`${proxy}${url}`));
     Promise.all(requestsResponses)
       .then((responses) => {
         responses.forEach(({ data }) => {
@@ -56,7 +54,8 @@ export default () => {
         });
       })
       .catch((err) => {
-        throw new Error(`Error: ${err}`);
+        state.updateStatus = 'updateFailed';
+        console.log(err);
       })
       .finally(() => {
         state.updateStatus = 'updated';
@@ -105,11 +104,11 @@ export default () => {
         if (err.response) {
           state.form.fillingProcess.state = 'networkError';
           state.form.fillingProcess.inputValue = '';
-          throw new Error(`Error: ${err}`);
+          console.log(err);
         } else {
           state.form.fillingProcess.state = 'feedError';
           state.form.fillingProcess.inputValue = '';
-          throw new Error(`Error: ${err}`);
+          console.log(err);
         }
       });
   });
