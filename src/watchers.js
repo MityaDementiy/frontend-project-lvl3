@@ -105,7 +105,7 @@ export default (state) => {
       addPosts(state.posts);
     }
     if (state.updateStatus === 'updateFailed') {
-      createAlert('networkError');
+      createAlert('danger');
     }
   });
 };
