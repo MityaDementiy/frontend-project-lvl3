@@ -15,40 +15,22 @@ export default (state) => {
     alert.remove();
   };
 
-  const createFillingProcessAlert = (fillingState) => {
+  const createAlert = (messageTrigger) => {
     removeAlert();
-    const alertTypeMapping = {
-      processing: 'info',
-      success: 'success',
-      feedError: 'warning',
-      emptySubmit: 'secondary',
-      invalid: 'dark',
-      networkError: 'danger',
-    };
-    const alertType = alertTypeMapping[fillingState];
     const alert = document.createElement('div');
     alert.setAttribute('id', 'alert');
     alert.setAttribute('style', 'position: absolute');
-    alert.classList.add('alert', `alert-${alertType}`);
+    alert.classList.add('alert', 'alert-info');
     const alertMessagesMapping = {
-      danger: i18next.t('alertMessages.danger'),
-      info: i18next.t('alertMessages.processing'),
+      networkError: i18next.t('alertMessages.networkError'),
+      processing: i18next.t('alertMessages.processing'),
       success: i18next.t('alertMessages.success'),
-      warning: i18next.t('alertMessages.warning'),
-      dark: i18next.t('alertMessages.invalid'),
-      secondary: i18next.t('alertMessages.secondary'),
+      feedError: i18next.t('alertMessages.feedError'),
+      invalid: i18next.t('alertMessages.invalid'),
+      emptySubmit: i18next.t('alertMessages.emptySubmit'),
+      updatingError: i18next.t('alertMessages.updatingError'),
     };
-    alert.textContent = alertMessagesMapping[alertType];
-    container.prepend(alert);
-  };
-
-  const createUpdatingErrorAlert = () => {
-    removeAlert();
-    const alert = document.createElement('div');
-    alert.setAttribute('id', 'alert');
-    alert.setAttribute('style', 'position: absolute');
-    alert.classList.add('alert', 'alert-danger');
-    alert.textContent = i18next.t('alertMessages.updatingError');
+    alert.textContent = alertMessagesMapping[messageTrigger];
     container.prepend(alert);
   };
 
@@ -73,7 +55,7 @@ export default (state) => {
     const urlCheckingState = state.form.fillingProcess.validationState;
     switch (urlCheckingState) {
       case 'invalid':
-        createFillingProcessAlert(urlCheckingState);
+        createAlert(urlCheckingState);
         break;
       case 'valid':
         removeAlert();
@@ -92,15 +74,15 @@ export default (state) => {
     switch (formState) {
       case 'emptySubmit':
       case 'processing':
-        createFillingProcessAlert(formState);
+        createAlert(formState);
         break;
       case 'feedError':
       case 'networkError':
-        createFillingProcessAlert(formState);
+        createAlert(formState);
         setTimeout(removeAlert, removeAlertPeriod);
         break;
       case 'success':
-        createFillingProcessAlert(formState);
+        createAlert(formState);
         addPosts(state.posts);
         setTimeout(removeAlert, removeAlertPeriod);
         break;
@@ -115,7 +97,7 @@ export default (state) => {
       addPosts(state.posts);
     }
     if (state.updateStatus === 'updateFailed') {
-      createUpdatingErrorAlert();
+      createAlert('updatingError');
       setTimeout(removeAlert, removeAlertPeriod);
     }
   });
