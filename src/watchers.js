@@ -20,7 +20,6 @@ export default (state) => {
     const alert = document.createElement('div');
     alert.setAttribute('id', 'alert');
     alert.setAttribute('style', 'position: absolute');
-    alert.classList.add('alert', 'alert-info');
     const alertMessagesMapping = {
       networkError: i18next.t('alertMessages.networkError'),
       processing: i18next.t('alertMessages.processing'),
@@ -31,6 +30,17 @@ export default (state) => {
       updatingError: i18next.t('alertMessages.updatingError'),
     };
     alert.textContent = alertMessagesMapping[messageTrigger];
+    const alertTypeMapping = {
+      processing: 'info',
+      success: 'success',
+      networkError: 'danger',
+      feedError: 'danger',
+      invalid: 'danger',
+      emptySubmit: 'danger',
+      updatingError: 'danger',
+    };
+    const alertType = alertTypeMapping[messageTrigger];
+    alert.classList.add('alert', `alert-${alertType}`);
     container.prepend(alert);
   };
 
