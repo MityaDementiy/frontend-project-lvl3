@@ -52,13 +52,13 @@ export default () => {
             });
           });
         });
+        state.updateStatus = 'updated';
       })
       .catch((err) => {
         state.updateStatus = 'updateFailed';
         console.log(err);
       })
       .finally(() => {
-        state.updateStatus = 'updated';
         setTimeout(updateFeeds, updatePeriod);
       });
   };

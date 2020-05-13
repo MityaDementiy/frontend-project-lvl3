@@ -5,6 +5,7 @@ export default (state) => {
   const submitButton = document.getElementById('submitButton');
   const input = document.getElementById('rssInput');
   const container = document.getElementById('column');
+  const removeAlertPeriod = 5000;
 
   const removeAlert = () => {
     const alert = document.getElementById('alert');
@@ -14,7 +15,7 @@ export default (state) => {
     alert.remove();
   };
 
-  const createAlert = (fillingState) => {
+  const createFillingProcessAlert = (fillingState) => {
     removeAlert();
     const alertTypeMapping = {
       processing: 'info',
@@ -41,6 +42,16 @@ export default (state) => {
     container.prepend(alert);
   };
 
+  const createUpdatingErrorAlert = () => {
+    removeAlert();
+    const alert = document.createElement('div');
+    alert.setAttribute('id', 'alert');
+    alert.setAttribute('style', 'position: absolute');
+    alert.classList.add('alert', 'alert-danger');
+    alert.textContent = i18next.t('alertMessages.updatingError');
+    container.prepend(alert);
+  };
+
   const addPosts = (posts) => {
     const postsList = document.getElementById('postsList');
     postsList.innerHTML = '';
@@ -62,7 +73,7 @@ export default (state) => {
     const urlCheckingState = state.form.fillingProcess.validationState;
     switch (urlCheckingState) {
       case 'invalid':
-        createAlert(urlCheckingState);
+        createFillingProcessAlert(urlCheckingState);
         break;
       case 'valid':
         removeAlert();
@@ -78,19 +89,18 @@ export default (state) => {
       return;
     }
     const form = document.getElementById('formRSS');
-    const removeAlertPeriod = 5000;
     switch (formState) {
       case 'emptySubmit':
       case 'processing':
-        createAlert(formState);
+        createFillingProcessAlert(formState);
         break;
       case 'feedError':
       case 'networkError':
-        createAlert(formState);
+        createFillingProcessAlert(formState);
         setTimeout(removeAlert, removeAlertPeriod);
         break;
       case 'success':
-        createAlert(formState);
+        createFillingProcessAlert(formState);
         addPosts(state.posts);
         setTimeout(removeAlert, removeAlertPeriod);
         break;
@@ -105,7 +115,8 @@ export default (state) => {
       addPosts(state.posts);
     }
     if (state.updateStatus === 'updateFailed') {
-      createAlert('danger');
+      createUpdatingErrorAlert();
+      setTimeout(removeAlert, removeAlertPeriod);
     }
   });
 };
